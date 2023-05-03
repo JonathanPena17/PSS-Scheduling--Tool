@@ -41,17 +41,17 @@ class CalendarUI(tk.Frame):
             for col, day in enumerate(week):
                 if day == 0:
                     continue
-                button = tk.Button(self, text=str(day))
+                button = tk.Button(self, text=str(day), command = self.create)
                 button.grid(row=row+2, column=col)
                 self.days_buttons.append(button)
                 if button == self.current_date:
                     button.configure(bg="yellow") # highlight the current day
         
 
-        create_task = tk.Button(self, text="Create")
+        create_task = tk.Button(self, text="Create", command = self.create)
         create_task.grid(row = 11 , column=1)
 
-        select_task = tk.Button(self, text="Select")
+        select_task = tk.Button(self, text="Select", command = self.create)
         select_task.grid(row = 11 , column = 3)
                 
         
@@ -73,6 +73,12 @@ class CalendarUI(tk.Frame):
             self.month += 1
         self.current_month_label.config(text=calendar.month_name[self.month] + " " + str(self.year))
         self.update_days_buttons()
+
+    def create(self):
+        root = tk.Tk()
+        root.geometry('300x200')
+        root.resizable(False, False)
+        root.title('Events')
 
 
 if __name__ == "__main__":
