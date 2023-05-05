@@ -1,5 +1,6 @@
 import calendar
 import tkinter as tk
+from menu import *
 
 
 class CalendarUI(tk.Frame):
