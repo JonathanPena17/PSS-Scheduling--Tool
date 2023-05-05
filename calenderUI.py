@@ -47,12 +47,11 @@ class CalendarUI(tk.Frame):
                 self.days_buttons.append(button)
                 if button == self.current_date:
                     button.configure(bg="yellow") # highlight the current day
-        
-
-        create_task = tk.Button(self, text="Create", command = self.create)
+         
+        create_task = tk.Button(self, text="Create", command= self.createTimePicker)
         create_task.grid(row = 11 , column=1)
 
-        select_task = tk.Button(self, text="Select", command = self.create)
+        select_task = tk.Button(self, text="Select", command= self.create)
         select_task.grid(row = 11 , column = 3)
                 
         
@@ -81,8 +80,18 @@ class CalendarUI(tk.Frame):
         root.resizable(False, False)
         root.title('Events')
 
+    def createTimePicker(self):
+        root = Tk()
+        tp = TimePicker(root)
+        tp.pack()
+        root.geometry("300x300")
+        root.wm_title("Personal Schedule")
+        root.mainloop()
+
+
 
 if __name__ == "__main__":
+
     root = tk.Tk()
     root.geometry("500x500")
     app = CalendarUI(master=root)
