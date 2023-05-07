@@ -89,6 +89,7 @@ class CalendarUI(tk.Frame):
         root.mainloop()
 
 
+#place menu window into calendar time select window
 
 if __name__ == "__main__":
 

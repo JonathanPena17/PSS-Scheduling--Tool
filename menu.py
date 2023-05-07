@@ -5,7 +5,10 @@ from tktimepicker import AnalogPicker, AnalogThemes
 from tkcalendar import *
 
 
+# menu window for creating a new appointment
 
+
+#picker data for time
 class TimePicker(Frame):
     def __init__(self, parent, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
@@ -91,6 +94,8 @@ class TimePicker(Frame):
         t = f"Your appointment is booked for {m}:{h}:{s}."
         self.msg_display.config(text=t)
 
+
+#logic to restrict time selection
         if self.last_value == "59" and self.min_string.get() == "0":
             self.hour_string.set(int(self.hour_string.get())+1 if self.hour_string.get() !="23" else 0)   
             self.last_value = self.min_string.get()
