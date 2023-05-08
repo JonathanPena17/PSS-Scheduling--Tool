@@ -1,8 +1,7 @@
 import calendar
 import tkinter as tk
 from tkinter import *
-from tktimepicker import AnalogPicker, AnalogThemes
-from tkcalendar import *
+
 
 
 # menu window for creating a new appointment
@@ -12,19 +11,23 @@ from tkcalendar import *
 class TimePicker(Frame):
     def __init__(self, parent, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
+        self.oneDay_string = StringVar()
+        self.twoDay_string = StringVar()
         self.hour_string = StringVar()
         self.min_string = StringVar()
         self.last_value_sec = ""
         self.last_value = ""
-        self.f = ('Times', 20)
+        self.f = ('Helvetica', 20)
 
         self.create_widgets()
 
     def create_widgets(self):
         fone = Frame(self)
         ftwo = Frame(self)
+        fthree = Frame(self)
         fone.pack(pady=10)
         ftwo.pack(pady=10)
+        fthree.pack(pady=20)
 
         self.min_sb = Spinbox(
             ftwo,
@@ -59,6 +62,30 @@ class TimePicker(Frame):
             justify=CENTER
         )
 
+        self.sec_day = Spinbox(
+            ftwo,
+            from_=0,
+            to=3,
+            wrap=True,
+            textvariable=self.twoDay_string,
+            font=self.f,
+            width=2,
+            justify=CENTER
+        )
+
+        self.day = Spinbox(
+            ftwo,
+            from_=0,
+            to=9,
+            wrap=True,
+            textvariable=self.oneDay_string,
+            width=2,
+            font=self.f,
+            justify=CENTER
+        )
+
+        self.sec_day.pack(side=LEFT, fill=X, expand=True)
+        self.day.pack(side=LEFT, fill=X, expand=True)
         self.min_sb.pack(side=LEFT, fill=X, expand=True)
         self.sec_hour.pack(side=LEFT, fill=X, expand=True)
         self.sec.pack(side=LEFT, fill=X, expand=True)
@@ -82,16 +109,18 @@ class TimePicker(Frame):
 
         self.msg_display = Label(
             self,
-            text="Birthday party",
+            text="",
             bg="#F79AC0"
         )
         self.msg_display.pack(pady=10)
 
     def display_msg(self):
+        dayone = self.day.get()
+        daytwo = self.sec_day.get()
         m = self.min_sb.get()
         h = self.sec_hour.get()
         s = self.sec.get()
-        t = f"Your appointment is booked for {m}:{h}:{s}."
+        t = f"Your appointment is booked for  {daytwo}{dayone}   {m}:{h}:{s}."
         self.msg_display.config(text=t)
 
 

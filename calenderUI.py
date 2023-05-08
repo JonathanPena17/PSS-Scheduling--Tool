@@ -80,6 +80,9 @@ class CalendarUI(tk.Frame):
         root.resizable(False, False)
         root.title('Events')
 
+
+#place menu window into calendar time select window
+
     def createTimePicker(self):
         root = Tk()
         tp = TimePicker(root)
@@ -89,7 +92,6 @@ class CalendarUI(tk.Frame):
         root.mainloop()
 
 
-#place menu window into calendar time select window
 
 if __name__ == "__main__":
 
