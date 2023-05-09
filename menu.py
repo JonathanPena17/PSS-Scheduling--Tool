@@ -120,7 +120,7 @@ class TimePicker(Frame):
         m = self.min_sb.get()
         h = self.sec_hour.get()
         s = self.sec.get()
-        t = f"Your appointment is booked for  {daytwo}{dayone}   {m}:{h}:{s}."
+        t = f"Your appointment is booked for the {daytwo}{dayone}   {m}:{h}:{s}."
         self.msg_display.config(text=t)
 
 
