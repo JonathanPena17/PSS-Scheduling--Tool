@@ -84,9 +84,9 @@ class CalendarUI(tk.Frame):
 #place menu window into calendar time select window
 
     def createTimePicker(self):
-        root = Tk()
-        tp = TimePicker(root)
-        tp.pack()
+        root = tk.Tk()
+        TimePicker(root).pack()
+        root.mainloop()
         root.geometry("300x300")
         root.wm_title("Personal Schedule")
         root.mainloop()

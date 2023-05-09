@@ -1,6 +1,6 @@
-import calendar
 import tkinter as tk
-from tkinter import *
+from tkinter import ttk
+
 
 
 
@@ -8,123 +8,81 @@ from tkinter import *
 
 
 #picker data for time
-class TimePicker(Frame):
-    def __init__(self, parent, *args, **kwargs):
-        Frame.__init__(self, parent, *args, **kwargs)
-        self.oneDay_string = StringVar()
-        self.twoDay_string = StringVar()
-        self.hour_string = StringVar()
-        self.min_string = StringVar()
-        self.last_value_sec = ""
-        self.last_value = ""
-        self.f = ('Helvetica', 20)
+class TimePicker(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.months = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December']
+        self.days = list(range(1, 32))
+        self.years = list(range(2023, 2101))
+        self.hours = list(range(1, 13))
+        self.minutes = list(range(0, 60, 5))
+        self.am_pm = ['AM']
+        self.am_pm2 = ['PM']
+        self.init_ui()
 
-        self.create_widgets()
+    def init_ui(self):
+        # Create the dropdown menu for month
+        self.month_label = tk.Label(self, text='Month:')
+        self.month_label.grid(row=0, column=0)
+        self.month_var = tk.StringVar(self)
+        self.month_var.set(self.months[0])
+        self.month_dropdown = ttk.Combobox(self, textvariable=self.month_var, values=self.months)
+        self.month_dropdown.grid(row=0, column=1)
 
-    def create_widgets(self):
-        fone = Frame(self)
-        ftwo = Frame(self)
-        fthree = Frame(self)
-        fone.pack(pady=10)
-        ftwo.pack(pady=10)
-        fthree.pack(pady=20)
+        # Create the dropdown menu for day
+        self.day_label = tk.Label(self, text='Day:')
+        self.day_label.grid(row=1, column=0)
+        self.day_var = tk.StringVar(self)
+        self.day_var.set(self.days[0])
+        self.day_dropdown = ttk.Combobox(self, textvariable=self.day_var, values=self.days)
+        self.day_dropdown.grid(row=1, column=1)
 
-        self.min_sb = Spinbox(
-            ftwo,
-            from_=0,
-            to=23,
-            wrap=True,
-            textvariable=self.hour_string,
-            width=2,
-            state="readonly",
-            font=self.f,
-            justify=CENTER
-        )
-        self.sec_hour = Spinbox(
-            ftwo,
-            from_=0,
-            to=59,
-            wrap=True,
-            textvariable=self.min_string,
-            font=self.f,
-            width=2,
-            justify=CENTER
-        )
+        # Create the dropdown menu for year
+        self.year_label = tk.Label(self, text='Year:')
+        self.year_label.grid(row=2, column=0)
+        self.year_var = tk.StringVar(self)
+        self.year_var.set(self.years[0])
+        self.year_dropdown = ttk.Combobox(self, textvariable=self.year_var, values=self.years)
+        self.year_dropdown.grid(row=2, column=1)
 
-        self.sec = Spinbox(
-            ftwo,
-            from_=0,
-            to=59,
-            wrap=True,
-            textvariable=self.sec_hour,
-            width=2,
-            font=self.f,
-            justify=CENTER
-        )
+        # Create the spinbox for hour
+        self.hour_label = tk.Label(self, text='Hour:')
+        self.hour_label.grid(row=3, column=0)
+        self.hour_var = tk.StringVar(self)
+        self.hour_var.set(self.hours[0])
+        self.hour_spinbox = tk.Spinbox(self, from_=1, to=12, textvariable=self.hour_var)
+        self.hour_spinbox.grid(row=3, column=1)
 
-        self.sec_day = Spinbox(
-            ftwo,
-            from_=0,
-            to=3,
-            wrap=True,
-            textvariable=self.twoDay_string,
-            font=self.f,
-            width=2,
-            justify=CENTER
-        )
+        # Create the spinbox for minutes
+        self.minute_label = tk.Label(self, text='Minute:')
+        self.minute_label.grid(row=4, column=0)
+        self.minute_var = tk.StringVar(self)
+        self.minute_var.set(self.minutes[0])
+        self.minute_spinbox = tk.Spinbox(self, from_=0, to=55, increment=5, textvariable=self.minute_var)
+        self.minute_spinbox.grid(row=4, column=1)
 
-        self.day = Spinbox(
-            ftwo,
-            from_=0,
-            to=9,
-            wrap=True,
-            textvariable=self.oneDay_string,
-            width=2,
-            font=self.f,
-            justify=CENTER
-        )
+        # Create the checkbox for AM
+        self.am_pm_var = tk.StringVar(self)
+        self.am_pm_var.set(self.am_pm[0])
+        self.am_pm_checkbox = ttk.Checkbutton(self, text='AM', variable=self.am_pm_var, onvalue='AM', offvalue='')
+        self.am_pm_checkbox.grid(row=5, column=1)
 
-        self.sec_day.pack(side=LEFT, fill=X, expand=True)
-        self.day.pack(side=LEFT, fill=X, expand=True)
-        self.min_sb.pack(side=LEFT, fill=X, expand=True)
-        self.sec_hour.pack(side=LEFT, fill=X, expand=True)
-        self.sec.pack(side=LEFT, fill=X, expand=True)
+        # Create the checkbox for PM
+        self.am_pm_var2 = tk.StringVar(self)
+        self.am_pm_var2.set(self.am_pm2[0])
+        self.am_pm_checkbox2 = ttk.Checkbutton(self, text='PM', variable=self.am_pm_var2, onvalue='PM', offvalue='')
+        self.am_pm_checkbox2.grid(row=6, column=1)
 
-        self.msg = Label(
-            self,
-            text="Hour  Minute  Seconds",
-            font=("Helvetica", 12),
-            bg="#F79AC0"
-        )
-        self.msg.pack(side=TOP)
-
-        self.actionBtn = Button(
-            self,
-            text="Create Event",
-            padx=10,
-            pady=10,
-            command=self.display_msg
-        )
-        self.actionBtn.pack(pady=10)
-
-        self.msg_display = Label(
-            self,
-            text="",
-            bg="#F79AC0"
-        )
-        self.msg_display.pack(pady=10)
-
-    def display_msg(self):
-        dayone = self.day.get()
-        daytwo = self.sec_day.get()
-        m = self.min_sb.get()
-        h = self.sec_hour.get()
-        s = self.sec.get()
-        t = f"Your appointment is booked for the {daytwo}{dayone}   {m}:{h}:{s}."
-        self.msg_display.config(text=t)
+        self.pack()
 
 
-#logic to restrict time selection
+# need submit button
+
+
+# might need to update logic to restrict time selection
+'''logic to restrict time selection
         if self.last_value == "59" and self.min_string.get() == "0":
             self.hour_string.set(int(self.hour_string.get())+1 if self.hour_string.get() !="23" else 0)   
             self.last_value = self.min_string.get()
@@ -134,4 +92,4 @@ class TimePicker(Frame):
         if self.last_value == "59":
             self.hour_string.set(int(self.hour_string.get())+1 if self.hour_string.get() !="23" else 0)            
             self.last_value_sec = self.sec_hour.get()
-
+'''
