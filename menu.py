@@ -2,12 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 
 
-
-
-# menu window for creating a new appointment
-
-
-#picker data for time
 class TimePicker(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -29,6 +23,7 @@ class TimePicker(tk.Frame):
         self.init_ui()
 
     def init_ui(self):
+
         # Create the dropdown menu for month
         self.month_label = tk.Label(self, text='Month:')
         self.month_label.grid(row=0, column=0)
@@ -53,64 +48,98 @@ class TimePicker(tk.Frame):
         self.year_dropdown = ttk.Combobox(self, textvariable=self.year_var, values=self.years)
         self.year_dropdown.grid(row=2, column=1)
 
-        # Create the spinbox for hour
-        self.hour_label = tk.Label(self, text='Hour:')
-        self.hour_label.grid(row=3, column=0)
-        self.hour_var = tk.StringVar(self)
-        self.hour_var.set(self.hours[0])
-        self.hour_spinbox = tk.Spinbox(self, from_=1, to=12, textvariable=self.hour_var)
-        self.hour_spinbox.grid(row=3, column=1)
-
-        # Create the spinbox for minutes
-        self.minute_label = tk.Label(self, text='Minute:')
-        self.minute_label.grid(row=4, column=0)
-        self.minute_var = tk.StringVar(self)
-        self.minute_var.set(self.minutes[0])
-        self.minute_spinbox = tk.Spinbox(self, from_=0, to=55, increment=5, textvariable=self.minute_var)
-        self.minute_spinbox.grid(row=4, column=1)
-
-        # Create the checkbox for AM
-        self.am_pm_var = tk.StringVar(self)
-        self.am_pm_var.set(self.am_pm[0])
-        self.am_pm_checkbox = ttk.Checkbutton(self, text='AM', variable=self.am_pm_var, onvalue='AM', offvalue='')
-        self.am_pm_checkbox.grid(row=5, column=1)
-
-        # Create the checkbox for PM
-        self.am_pm_var2 = tk.StringVar(self)
-        self.am_pm_var2.set(self.am_pm2[0])
-        self.am_pm_checkbox2 = ttk.Checkbutton(self, text='PM', variable=self.am_pm_var2, onvalue='PM', offvalue='')
-        self.am_pm_checkbox2.grid(row=6, column=1)
-
-        #Create the reoccurring button
-        self.reoccurring_var = tk.StringVar(self)
-        self.reoccurring_var.set(self.reoccurring_button[0])
-        self.reoccurring_button = ttk.Button(self, text='Reoccurring', command=self.clickreoccurring_button)
-        self.reoccurring_button.grid(row=6,column=3)
-        #Create the single button
-        self.single_var = tk.StringVar(self)
-        self.single_var.set(self.single_button[0])
-        self.single_button = ttk.Button(self, text='Single', command=self.clicksingle_button)
-        self.single_button.grid(row=5,column=3)
-
-        self.pack()
+        # Create the spinbox for start time
+        self.start_label = tk.Label(self, text='Start Time:')
+        self.start_label.grid(row=3, column=0)
+        self.start_hour_var = tk.StringVar(self)
+        self.start_hour_var.set(self.hours[0])
+        self.start_hour_spinbox = tk.Spinbox(self, from_=1, to=12, textvariable=self.start_hour_var)
+        self.start_hour_spinbox.grid(row=3, column=1)
+        self.start_minute_var = tk.StringVar(self)
+        self.start_minute_var.set(self.minutes[0])
+        self.start_minute_spinbox = tk.Spinbox(self, from_=0, to=55, increment=5, textvariable=self.start_minute_var)
+        self.start_minute_spinbox.grid(row=3, column=2)
+        self.start_am_pm_var = tk.StringVar(self)
+        self.start_am_pm_var.set(self.am_pm[0])
+        self.start_am_pm_checkbox_am = tk.Checkbutton(self, text='AM', variable=self.start_am_pm_var, onvalue='AM', offvalue='')
+        self.start_am_pm_checkbox_am.grid(row=3, column=3)
+        self.start_am_pm_checkbox_pm = tk.Checkbutton(self, text='PM', variable=self.start_am_pm_var, onvalue='PM', offvalue='')
+        self.start_am_pm_checkbox_pm.grid(row=3, column=4)
 
 
+        # Create the spinbox for end time
+        self.end_label = tk.Label(self, text='End Time:')
+        self.end_label.grid(row=4, column=0)
+        self.end_hour_var = tk.StringVar(self)
+        self.end_hour_var.set(self.hours[0])
+        self.end_hour_spinbox = tk.Spinbox(self, from_=1, to=12, textvariable=self.end_hour_var)
+        self.end_hour_spinbox.grid(row=4, column=1)
+        self.end_minute_var = tk.StringVar(self)
+        self.end_minute_var.set(self.minutes[0])
+        self.end_minute_spinbox = tk.Spinbox(self, from_=0, to=55, increment=5, textvariable=self.end_minute_var)
+        self.end_minute_spinbox.grid(row=4, column=2)
+        self.end_am_pm_var = tk.StringVar(self)
+        self.end_am_pm_var.set(self.am_pm[0])
+        self.end_am_pm_checkbox = tk.Checkbutton(self, text='AM', variable=self.end_am_pm_var, onvalue='AM', offvalue='')
+        self.end_am_pm_checkbox.grid(row=4, column=3)
+        self.end_am_pm_checkbox_pm = tk.Checkbutton(self, text='PM', variable=self.end_am_pm_var, onvalue='PM', offvalue='')
+        self.end_am_pm_checkbox_pm.grid(row=4, column=4)
+
+
+        # Create the radio buttons for single/reoccurring events
+        self.event_type_label = tk.Label(self, text='Event Type:')
+        self.event_type_label.grid(row=5, column=0)
+        self.event_type_var = tk.StringVar(self)
+        self.event_type_var.set('Single')
+        self.single_button = tk.Radiobutton(self, text='Single', variable=self.event_type_var, value='Single')
+        self.single_button.grid(row=5, column=1)
+        self.reoccurring_button = tk.Radiobutton(self, text='Reoccurring', variable=self.event_type_var, value='Reoccurring')
+        self.reoccurring_button.grid(row=5, column=2)
+
+        # Create the submit button
+        self.submit_button = tk.Button(self, text='Submit', command=self.submit)
+        self.submit_button.grid(row=6, column=2)
+
+        self.msg_display = tk.Label(self, text='')
+        self.msg_display.grid(row=7, columnspan=5)
+
+
+    def submit(self):
+        month = self.month_var.get()
+        day = self.day_var.get()
+        year = self.year_var.get()
+        start_hour = self.start_hour_var.get()
+        start_minute = self.start_minute_var.get()
+        start_am_pm = self.start_am_pm_var.get()
+        end_hour = self.end_hour_var.get()
+        end_minute = self.end_minute_var.get()
+        end_am_pm = self.end_am_pm_var.get()
+        event_type = self.event_type_var.get()
+
+        start_minute = f"{int(self.start_minute_var.get()):02d}"
+        start_am_pm = self.start_am_pm_var.get()
+        end_minute = f"{int(self.end_minute_var.get()):02d}"
+        end_am_pm = self.end_am_pm_var.get()
+
+        time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type} event)'
+
+
+        # Read the contents of the file
+        with open('user_input.txt', 'r') as f:
+            contents = f.readlines()
+
+        # Check if the latest input matches with any previous input
+        if time_str+'\n' in contents:
+            print("Error: This appointment time has already been booked.")
+            self.msg_display.config(text="Error: This appointment time has already been booked.")
+        else:
+            # Write the latest input to the file
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+            print(f"Your appointment is booked for {time_str}.")
+            self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
 
 
 
 
- # need submit button
-
-
-# might need to update logic to restrict time selection
-'''logic to restrict time selection
-        if self.last_value == "59" and self.min_string.get() == "0":
-            self.hour_string.set(int(self.hour_string.get())+1 if self.hour_string.get() !="23" else 0)   
-            self.last_value = self.min_string.get()
-
-        if self.last_value_sec == "59" and self.sec_hour.get() == "0":
-            self.min_string.set(int(self.min_string.get())+1 if self.min_string.get() !="59" else 0)
-        if self.last_value == "59":
-            self.hour_string.set(int(self.hour_string.get())+1 if self.hour_string.get() !="23" else 0)            
-            self.last_value_sec = self.sec_hour.get()
-'''
+   
