@@ -1,4 +1,3 @@
-
 import calendar
 import tkinter as tk
 from menu import *
@@ -16,7 +15,6 @@ class CalendarUI(tk.Frame):
     def create_widgets(self):
         self.current_month_label = tk.Label(self, text=calendar.month_name[self.month] + " " + str(self.year))
         self.current_month_label.grid(row=0, column=0, columnspan=7)
-
         self.weekday_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         for i, weekday in enumerate(self.weekday_labels):
             label = tk.Label(self, text=weekday)
