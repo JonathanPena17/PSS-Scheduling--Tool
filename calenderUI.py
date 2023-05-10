@@ -76,6 +76,7 @@ class CalendarUI(tk.Frame):
         self.update_days_buttons()
 
     def create(self):
+
         root = tk.Tk()
         root.geometry('300x200')
         root.resizable(False, False)

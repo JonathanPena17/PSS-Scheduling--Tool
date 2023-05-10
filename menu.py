@@ -11,6 +11,10 @@ from tkinter import ttk
 class TimePicker(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
+        self.clicksingle_button = None
+        self.clickreoccurring_button = None
+        self.reoccurring_button = None
+        self.single_button = None
         self.master = master
         self.months = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December']
@@ -20,6 +24,8 @@ class TimePicker(tk.Frame):
         self.minutes = list(range(0, 60, 5))
         self.am_pm = ['AM']
         self.am_pm2 = ['PM']
+        self.reoccurring_button = ['Reoccurring']
+        self.single_button = ['Single']
         self.init_ui()
 
     def init_ui(self):
@@ -75,10 +81,25 @@ class TimePicker(tk.Frame):
         self.am_pm_checkbox2 = ttk.Checkbutton(self, text='PM', variable=self.am_pm_var2, onvalue='PM', offvalue='')
         self.am_pm_checkbox2.grid(row=6, column=1)
 
+        #Create the reoccurring button
+        self.reoccurring_var = tk.StringVar(self)
+        self.reoccurring_var.set(self.reoccurring_button[0])
+        self.reoccurring_button = ttk.Button(self, text='Reoccurring', command=self.clickreoccurring_button)
+        self.reoccurring_button.grid(row=6,column=3)
+        #Create the single button
+        self.single_var = tk.StringVar(self)
+        self.single_var.set(self.single_button[0])
+        self.single_button = ttk.Button(self, text='Single', command=self.clicksingle_button)
+        self.single_button.grid(row=5,column=3)
+
         self.pack()
 
 
-# need submit button
+
+
+
+
+ # need submit button
 
 
 # might need to update logic to restrict time selection
