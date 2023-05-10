@@ -1,3 +1,4 @@
+
 import calendar
 import tkinter as tk
 from menu import *
@@ -47,15 +48,14 @@ class CalendarUI(tk.Frame):
                 self.days_buttons.append(button)
                 if button == self.current_date:
                     button.configure(bg="yellow") # highlight the current day
-        
 
-        create_task = tk.Button(self, text="Create", command = self.create)
+        create_task = tk.Button(self, text="Create", command= self.createTimePicker)
         create_task.grid(row = 11 , column=1)
 
-        select_task = tk.Button(self, text="Select", command = self.create)
+        select_task = tk.Button(self, text="Select", command= self.create)
         select_task.grid(row = 11 , column = 3)
-                
-        
+
+
 
     def go_to_previous_month(self):
         if self.month == 1:
@@ -82,19 +82,20 @@ class CalendarUI(tk.Frame):
         root.title('Events')
 
 
-
 #place menu window into calendar time select window
 
     def createTimePicker(self):
-        root = Tk()
-        tp = TimePicker(root)
-        tp.pack()
+        root = tk.Tk()
+        TimePicker(root).pack()
+        root.mainloop()
         root.geometry("300x300")
         root.wm_title("Personal Schedule")
         root.mainloop()
 
 
+
 if __name__ == "__main__":
+
     root = tk.Tk()
     root.geometry("500x500")
     app = CalendarUI(master=root)
