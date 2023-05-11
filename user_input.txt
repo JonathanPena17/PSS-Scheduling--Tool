@@ -1,3 +1,5 @@
-January 1, 2023 - 1:00AM to 2:00AM (Single:)
-January 1, 2023 - 3:00PM to 4:00PM (Single:)
-January 1, 2023 - 1:00PM to 2:00PM (Single:)
+January 1, 2023 - 1:00AM to 2:00AM (Reoccurring:)
+January 1, 2023 - 1:00AM to 2:00AM (Reoccurring:)
+January 1, 2023 - 1:00AM to 2:00AM (Reoccurring:)
+January 1, 2023 - 1:00AM to 2:00AM (Reoccurring:)
+January 1, 2023 - 1:00AM to 2:00AM (Reoccurring:)
