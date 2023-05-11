@@ -165,8 +165,7 @@ class TimePicker(tk.Frame):
         end_minute = f"{int(end_minute):02d}"
         end_am_pm = self.end_am_pm_var.get()
         
-        time_output = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-        time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}'
+        time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
          # Validate input
         try:
                 # Convert start and end times to 24-hour format for comparison
@@ -190,19 +189,18 @@ class TimePicker(tk.Frame):
 
         if event_type == 'Single':
 
-            # Check if the latest input matches with any previous input
+            # Check if there are any overlapping events
             with open('user_input.txt', 'r') as f:
                 contents = f.readlines()
-            if time_str+'\n' in contents:
+            for line in contents:
+                if line.startswith(f"{month} {day}, {year} - {start_hour}:{start_minute}"):
                     self.msg_display.config(text="Error: This appointment time has already been booked.")
-            else:
-                # Write the latest input to the file
-                with open('user_input.txt', 'a') as f:
-                    f.write(f"{time_str}\n")
-                    self.msg_display.config(text=f"Your appointment is booked for {time_output}.")
-                with open('user_output.txt', 'a') as f:
-                    f.write(f"{time_output}\n")
-                    self.msg_display.config(text=f"Your appointment is booked for {time_output}.")
+                    return
+
+            # Write the latest input to the file
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+                self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
         
         elif event_type == 'Reoccurring':
             print("Reoccurring")
