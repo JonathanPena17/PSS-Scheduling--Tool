@@ -219,41 +219,47 @@ class TimePicker(tk.Frame):
         elif event_type == 'Reoccurring':
 
             if freq == 'Daily':
-                print("Reoccurring Daily")
+
                 # Get the user's selected start date
                 start_date = datetime.date(int(year), month_dict[month], int(day))
 
-                # Iterate through the rest of the year, incrementing the date by one day
+                # Iterate through the days until the year changes
                 current_date = start_date
-                while current_date.year == year:
+                while current_date.year == start_date.year:
                     # Format the current date as a string for display
                     current_date_str = current_date.strftime('%B %d, %Y')
+
+                    # Create a task for the current date
+                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
 
                     # Write the task to the file
                     with open('user_input.txt', 'a') as f:
                         f.write(f"{time_str}\n")
 
                     # Increment the date by one day
-                    print("It is iterating")
                     current_date += datetime.timedelta(days=1)
                 
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
-                print("its skipping the while loop!")
+
 
             elif freq == 'Weekly':
+                
                 # Get the user's selected start date
                 start_date = datetime.date(int(year), month_dict[month], int(day))
 
-                # Iterate through the rest of the year, incrementing the date by one day
+                # Iterate through the days until the year changes
                 current_date = start_date
-                while current_date.year == year:
+                while current_date.year == start_date.year:
                     # Format the current date as a string for display
                     current_date_str = current_date.strftime('%B %d, %Y')
+
+                    # Create a task for the current date
+                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
 
                     # Write the task to the file
                     with open('user_input.txt', 'a') as f:
                         f.write(f"{time_str}\n")
-                    
+
                     # Increment the date by one day
                     current_date += datetime.timedelta(days=7)
                 
@@ -263,61 +269,47 @@ class TimePicker(tk.Frame):
                 # Get the user's selected start date
                 start_date = datetime.date(int(year), month_dict[month], int(day))
 
-                # Iterate through the rest of the year, incrementing the date by one day
+                # Iterate through the days until the year changes
                 current_date = start_date
-
-                while current_date.year == year:
+                while current_date.year == start_date.year:
                     # Format the current date as a string for display
                     current_date_str = current_date.strftime('%B %d, %Y')
+
+                    # Create a task for the current date
+                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
 
                     # Write the task to the file
                     with open('user_input.txt', 'a') as f:
                         f.write(f"{time_str}\n")
-                    
+
                     # Increment the date by one day
                     current_date += datetime.timedelta(days=14)
                 
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
             
             elif freq == 'Monthly':
+                
                 # Get the user's selected start date
                 start_date = datetime.date(int(year), month_dict[month], int(day))
 
-                # Iterate through the rest of the year, incrementing the date by one month
+                # Iterate through the days until the year changes
                 current_date = start_date
-                while current_date.year == year:
-                    
+                while current_date.year == start_date.year:
                     # Format the current date as a string for display
                     current_date_str = current_date.strftime('%B %d, %Y')
 
+                    # Create a task for the current date
+                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+
                     # Write the task to the file
                     with open('user_input.txt', 'a') as f:
                         f.write(f"{time_str}\n")
 
-                    # Increment the date by one month
+                    # Increment the date by one day
                     current_date += relativedelta(months=1)
                 
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
-            
-            elif freq == 'Yearly':
-                # Get the user's selected start date
-                start_date = datetime.date(int(year), month_dict[month], int(day))
 
-                # Set a maximum number of years to schedule the task
-                max_years = 5
-
-                # Iterate through the years, incrementing the year by one
-                current_year = start_date.year
-                while current_year - start_date.year < max_years:
-
-                    # Write the task to the file
-                    with open('user_input.txt', 'a') as f:
-                        f.write(f"{time_str}\n")
-                    
-                    # Increment the year by one
-                    current_year += 1
-                
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
             
         elif event_type == 'Anti-Task':
             print("Work in progress")
