@@ -141,8 +141,8 @@ class TimePicker(tk.Frame):
         self.reoccurring_option_dropdown = ttk.OptionMenu(self, self.reoccurring_freq_var, *self.reoccurring_options)
         self.reoccurring_option_dropdown.grid(row=7, column=2)
 
-
-    def submit(self):
+#added the modified contents, you can take it off still figuring it out
+    def submit(self, modified_contents=None):
         month = self.month_var.get()
         day = self.day_var.get()
         year = self.year_var.get()
@@ -311,5 +311,17 @@ class TimePicker(tk.Frame):
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
 
             
-        elif event_type == 'Anti-Task':
-            print("Work in progress")
+        #working progress we need to se if we can delete tasks that area already done
+            elif event_type == 'Anti-Task':
+                with open('user_input.txt', 'r') as f:
+                    var = modified_contents
+                    contents = f.readlines()
+            for line in contents:
+                if line.startswith(f"{month} {day}, {year} - {start_hour}:{start_minute}"):
+                    modified_contents == contents.replace(f"{time_str}:{freq}", f"{time_str}:{freq}")
+                    self.msg_display.config(text="You have created a new appointment.")
+                    print('hi')
+                    # Write the latest input to the file
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+                self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
