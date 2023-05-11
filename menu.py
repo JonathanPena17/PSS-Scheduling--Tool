@@ -15,10 +15,6 @@ class TimePicker(tk.Frame):
         self.master = master
         self.months = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December']
-        # Create a dictionary to map month names to their corresponding numbers
-        self.months = {'January': 1,'February': 2,'March': 3,'April': 4,'May': 5,'June': 6,
-                           'July': 7,'August': 8,'September': 9, 'October': 10, 'November': 11,'December': 12
-                          }
         self.days = list(range(1, 32))
         self.years = list(range(2023, 2101))
         self.hours = list(range(1, 13))
@@ -101,6 +97,7 @@ class TimePicker(tk.Frame):
         self.end_am_pm_checkbox.grid(row=5, column=3)
         self.end_am_pm_checkbox_pm = tk.Checkbutton(self, text='PM', variable=self.end_am_pm_var, onvalue='PM', offvalue='')
         self.end_am_pm_checkbox_pm.grid(row=5, column=4)
+
 
 
         # Create the dropdown menu for event type
