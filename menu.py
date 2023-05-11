@@ -200,6 +200,9 @@ class TimePicker(tk.Frame):
                 with open('user_input.txt', 'a') as f:
                     f.write(f"{time_str}\n")
                     self.msg_display.config(text=f"Your appointment is booked for {time_output}.")
+                with open('user_output.txt', 'a') as f:
+                    f.write(f"{time_output}\n")
+                    self.msg_display.config(text=f"Your appointment is booked for {time_output}.")
         
         elif event_type == 'Reoccurring':
             print("Reoccurring")
