@@ -25,7 +25,7 @@ class TimePicker(tk.Frame):
         self.event_type_var = tk.StringVar(self)
         self.event_type_var.set('Single')
         self.event_types = ['Single', 'Reoccurring', 'Anti-Task']
-        self.reoccurring_options = ['Daily', 'Weekly','BiWeekly', 'Monthly', 'Yearly']
+        self.reoccurring_options = ['Daily','Daily', 'Weekly','BiWeekly', 'Monthly', 'Yearly']
         self.init_ui()
 
     def init_ui(self):
@@ -313,13 +313,23 @@ class TimePicker(tk.Frame):
             
         #working progress we need to se if we can delete tasks that area already done
             elif event_type == 'Anti-Task':
+                start_date = datetime.date(int(year), month_dict[month], int(day))
+
+                # Iterate through the days until the year changes
+                current_date = start_date
+                while current_date.year == start_date.year:
+                    # Format the current date as a string for display
+                    current_date_str = current_date.strftime('%B %d, %Y')
+
+                    # Create a task for the current date
+                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
                 with open('user_input.txt', 'r') as f:
                     var = modified_contents
                     contents = f.readlines()
             for line in contents:
                 if line.startswith(f"{month} {day}, {year} - {start_hour}:{start_minute}"):
                     modified_contents == contents.replace(f"{time_str}:{freq}", f"{time_str}:{freq}")
-                    self.msg_display.config(text="You have created a new appointment.")
+                    self.msg_display.config(text="You have created a new appointment. And have replaced with a new one")
                     print('hi')
                     # Write the latest input to the file
             with open('user_input.txt', 'a') as f:
