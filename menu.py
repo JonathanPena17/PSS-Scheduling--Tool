@@ -25,7 +25,7 @@ class TimePicker(tk.Frame):
         self.event_type_var = tk.StringVar(self)
         self.event_type_var.set('Single')
         self.event_types = ['Single', 'Reoccurring', 'Anti-Task']
-        self.reoccurring_options = ['Daily','Daily', 'Weekly','BiWeekly', 'Monthly', 'Yearly']
+        self.reoccurring_options = ['Daily','Daily', 'Weekly','BiWeekly', 'Monthly']
         self.init_ui()
 
     def init_ui(self):
@@ -155,23 +155,8 @@ class TimePicker(tk.Frame):
         event_type = self.event_type_var.get()
         task_name = self.task_name_entry.get()
         self.task_name = task_name
-        month_dict = {
-            'January': 1,
-            'February': 2,
-            'March': 3,
-            'April': 4,
-            'May': 5,
-            'June': 6,
-            'July': 7,
-            'August': 8,
-            'September': 9,
-            'October': 10,
-            'November': 11,
-            'December': 12
-        }
 
         freq = self.reoccurring_freq_var.get() # Get the frequency here
-
 
         # Format time string
         start_minute = f"{int(start_minute):02d}"
@@ -179,8 +164,7 @@ class TimePicker(tk.Frame):
         end_minute = f"{int(end_minute):02d}"
         end_am_pm = self.end_am_pm_var.get()
         
-        time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-         # Validate input
+        # Validate input
         try:
                 # Convert start and end times to 24-hour format for comparison
                 if start_am_pm == 'PM' and int(start_hour) != 12:
@@ -202,149 +186,118 @@ class TimePicker(tk.Frame):
                 return
 
         if event_type == 'Single':
+            result = singleTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm,task_name)
+            self.msg_display.config(text = result)
 
-            # Format the day with leading zeros if necessary
-            # Check if the day needs leading zeros
-            if len(day) < 2:
-                day_str = f"0{day}"
-            else:
-                day_str = day
-
-            # Check if there are any overlapping events
-            with open('user_input.txt', 'r') as f:
-                contents = f.readlines()
-            for line in contents:
-                if line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}"):
-                    self.msg_display.config(text="Error: This appointment time has already been booked.")
-                    return
-
-            # Write the latest input to the file
-            with open('user_input.txt', 'a') as f:
-                f.write(f"{time_str}\n")
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
-
-        
         elif event_type == 'Reoccurring':
-
-            if freq == 'Daily':
-
-                # Get the user's selected start date
-                start_date = datetime.date(int(year), month_dict[month], int(day))
-
-                # Iterate through the days until the year changes
-                current_date = start_date
-                while current_date.year == start_date.year:
-                    # Format the current date as a string for display
-                    current_date_str = current_date.strftime('%B %d, %Y')
-
-                    # Create a task for the current date
-                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-
-                    # Write the task to the file
-                    with open('user_input.txt', 'a') as f:
-                        f.write(f"{time_str}\n")
-
-                    # Increment the date by one day
-                    current_date += datetime.timedelta(days=1)
-                
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
-
-
-            elif freq == 'Weekly':
-                
-                # Get the user's selected start date
-                start_date = datetime.date(int(year), month_dict[month], int(day))
-
-                # Iterate through the days until the year changes
-                current_date = start_date
-                while current_date.year == start_date.year:
-                    # Format the current date as a string for display
-                    current_date_str = current_date.strftime('%B %d, %Y')
-
-                    # Create a task for the current date
-                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-
-                    # Write the task to the file
-                    with open('user_input.txt', 'a') as f:
-                        f.write(f"{time_str}\n")
-
-                    # Increment the date by one day
-                    current_date += datetime.timedelta(days=7)
-                
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
-
-            elif freq == 'BiWeekly':
-                # Get the user's selected start date
-                start_date = datetime.date(int(year), month_dict[month], int(day))
-
-                # Iterate through the days until the year changes
-                current_date = start_date
-                while current_date.year == start_date.year:
-                    # Format the current date as a string for display
-                    current_date_str = current_date.strftime('%B %d, %Y')
-
-                    # Create a task for the current date
-                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-
-                    # Write the task to the file
-                    with open('user_input.txt', 'a') as f:
-                        f.write(f"{time_str}\n")
-
-                    # Increment the date by one day
-                    current_date += datetime.timedelta(days=14)
-                
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
-            
-            elif freq == 'Monthly':
-                
-                # Get the user's selected start date
-                start_date = datetime.date(int(year), month_dict[month], int(day))
-
-                # Iterate through the days until the year changes
-                current_date = start_date
-                while current_date.year == start_date.year:
-                    # Format the current date as a string for display
-                    current_date_str = current_date.strftime('%B %d, %Y')
-
-                    # Create a task for the current date
-                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
-
-                    # Write the task to the file
-                    with open('user_input.txt', 'a') as f:
-                        f.write(f"{time_str}\n")
-
-                    # Increment the date by one day
-                    current_date += relativedelta(months=1)
-                
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
+           result = recurringTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm, freq, event_type, task_name)
+           self.msg_display.config(text=result)
 
         elif event_type == 'Anti-Task':
 
-                # Create a task for the current date
-                time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}'
-                # Format the day with leading zeros if necessary
-                # Check if the day needs leading zeros
-                if len(day) < 2:
-                    day_str = f"0{day}"
+            result = antiTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm)
+            self.msg_display.config(text=result)
+
+def singleTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm, event_type, task_name = ""):
+        # Format the day with leading zeros if necessary
+        # Check if the day needs leading zeros
+        if len(day) < 2:
+            day_str = f"0{day}"
+        else:
+            day_str = day
+
+        # Check if there are any overlapping events
+        with open('user_input.txt', 'r') as f:
+            contents = f.readlines()
+        for line in contents:
+            if line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}"):
+                return "Error: This appointment time has already been booked."
+
+        # Write the latest input to the file
+        time_str = f"{month} {day_str}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} {event_type}:{task_name}"
+        with open('user_input.txt', 'a') as f:
+            f.write(f"{time_str}\n")
+        return f"Your appointment is booked for {time_str}."
+    
+def recurringTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm, freq, event_type, task_name=""):
+    month_dict = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
+
+    print(freq)
+
+    if freq == 'Daily':
+        print("Daily")
+        start_date = datetime.date(int(year), month_dict[month], int(day))
+        current_date = start_date
+        while current_date.year == start_date.year:
+            current_date_str = current_date.strftime('%B %d, %Y')
+            time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+            current_date += datetime.timedelta(days=1)
+        return f"Your appointment is booked for {time_str}:{freq}"
+
+    elif freq == 'Weekly':
+        print("Weekly")
+        start_date = datetime.date(int(year), month_dict[month], int(day))
+        current_date = start_date
+        while current_date.year == start_date.year:
+            current_date_str = current_date.strftime('%B %d, %Y')
+            time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+            current_date += datetime.timedelta(weeks=1)
+        return f"Your appointment is booked for {time_str}:{freq}"
+
+    elif freq == 'BiWeekly':
+        print("Biweekly appointment")
+        start_date = datetime.date(int(year), month_dict[month], int(day))
+        current_date = start_date
+        while current_date.year == start_date.year:
+            current_date_str = current_date.strftime('%B %d, %Y')
+            time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+            current_date += datetime.timedelta(weeks=2)
+        return f"Your appointment is booked for {time_str}:{freq}"
+
+    elif freq == 'Monthly':
+        start_date = datetime.date(int(year), month_dict[month], int(day))
+        current_date = start_date
+        while current_date.year == start_date.year:
+            current_date_str = current_date.strftime('%B %d, %Y')
+            time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+            with open('user_input.txt', 'a') as f:
+                f.write(f"{time_str}\n")
+            current_date += relativedelta(months=1)
+        return f"Your appointment is booked for {time_str}:{freq}"
+
+
+def antiTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, end_minute, end_am_pm):
+        # Create a task for the current date
+        time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}'
+
+        # Format the day with leading zeros if necessary
+        # Check if the day needs leading zeros
+        if len(day) < 2:
+            day_str = f"0{day}"
+        else:
+            day_str = day
+
+        # Search for the event to be deleted
+        event_found = False
+        with open('user_input.txt', 'r') as f:
+            contents = f.readlines()
+        with open('user_input.txt', 'w') as f:
+            for line in contents:
+                if not line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}"):
+                    f.write(line)
                 else:
-                    day_str = day
-                    
-                # Search for the event to be deleted
-                event_found = False
-                with open('user_input.txt', 'r') as f:
-                    contents = f.readlines()
-                with open('user_input.txt', 'w') as f:
-                    for line in contents:
-                        if not line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}"):
-                            f.write(line)
-                        else:
-                            event_found = True
+                    event_found = True
 
-                # Display appropriate message
-                if event_found:
-                    self.msg_display.config(text=f"Your appointment is for {time_str} has been deleted.")
-
-                else:
-                    self.msg_display.config(text=f"{time_str} does not exist.")
-
+        # Display appropriate message
+        if event_found:
+            return f"Your appointment for {time_str} has been deleted."
+        else:
+            return f"Event on {time_str} does not exist."
+    
 
