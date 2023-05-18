@@ -203,11 +203,18 @@ class TimePicker(tk.Frame):
 
         if event_type == 'Single':
 
+            # Format the day with leading zeros if necessary
+            # Check if the day needs leading zeros
+            if len(day) < 2:
+                day_str = f"0{day}"
+            else:
+                day_str = day
+
             # Check if there are any overlapping events
             with open('user_input.txt', 'r') as f:
                 contents = f.readlines()
             for line in contents:
-                if line.startswith(f"{month} {day}, {year} - {start_hour}:{start_minute}"):
+                if line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}"):
                     self.msg_display.config(text="Error: This appointment time has already been booked.")
                     return
 
@@ -215,6 +222,7 @@ class TimePicker(tk.Frame):
             with open('user_input.txt', 'a') as f:
                 f.write(f"{time_str}\n")
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
+
         
         elif event_type == 'Reoccurring':
 
@@ -310,28 +318,33 @@ class TimePicker(tk.Frame):
                 
                 self.msg_display.config(text=f"Your appointment is booked for {time_str}:{freq}")
 
-            
-        #working progress we need to se if we can delete tasks that area already done
-            elif event_type == 'Anti-Task':
-                start_date = datetime.date(int(year), month_dict[month], int(day))
+        elif event_type == 'Anti-Task':
 
-                # Iterate through the days until the year changes
-                current_date = start_date
-                while current_date.year == start_date.year:
-                    # Format the current date as a string for display
-                    current_date_str = current_date.strftime('%B %d, %Y')
-
-                    # Create a task for the current date
-                    time_str = f'{current_date_str} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm} ({event_type}:{task_name})'
+                # Create a task for the current date
+                time_str = f'{month} {day}, {year} - {start_hour}:{start_minute}{start_am_pm} to {end_hour}:{end_minute}{end_am_pm}'
+                # Format the day with leading zeros if necessary
+                # Check if the day needs leading zeros
+                if len(day) < 2:
+                    day_str = f"0{day}"
+                else:
+                    day_str = day
+                    
+                # Search for the event to be deleted
+                event_found = False
                 with open('user_input.txt', 'r') as f:
-                    var = modified_contents
                     contents = f.readlines()
-            for line in contents:
-                if line.startswith(f"{month} {day}, {year} - {start_hour}:{start_minute}"):
-                    modified_contents == contents.replace(f"{time_str}:{freq}", f"{time_str}:{freq}")
-                    self.msg_display.config(text="You have created a new appointment. And have replaced with a new one")
-                    print('hi')
-                    # Write the latest input to the file
-            with open('user_input.txt', 'a') as f:
-                f.write(f"{time_str}\n")
-                self.msg_display.config(text=f"Your appointment is booked for {time_str}.")
+                with open('user_input.txt', 'w') as f:
+                    for line in contents:
+                        if not line.startswith(f"{month} {day_str}, {year} - {start_hour}:{start_minute}"):
+                            f.write(line)
+                        else:
+                            event_found = True
+
+                # Display appropriate message
+                if event_found:
+                    self.msg_display.config(text=f"Your appointment is for {time_str} has been deleted.")
+
+                else:
+                    self.msg_display.config(text=f"{time_str} does not exist.")
+
+
