@@ -4,7 +4,8 @@ This is a simple tkinter GUI scheduler application written in Python. It allows 
 
 ## Installation
 
-To use this application, you need to have Python installed. Clone the repository to your local machine using the following command:  <i> python3 calendarUI.py </i>
+To use this application, you need to have Python installed. Clone the repository to your local machine using the following command:  
+<i> git clone https://github.com/JonathanPena17/PSS-Scheduling-Tool.git  </i>
 
 ## Usage
 
