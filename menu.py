@@ -28,6 +28,35 @@ class TimePicker(tk.Frame):
         self.reoccurring_options = ['Daily','Daily', 'Weekly','BiWeekly', 'Monthly']
         self.init_ui()
 
+    def search_tasks(self):
+        month = self.month_var.get()
+        day = self.day_var.get()
+        year = self.year_var.get()
+
+        # Format the day with leading zeros if necessary
+        if len(day) < 2:
+            day_str = f"0{day}"
+        else:
+            day_str = day
+
+        # Read the tasks from the file
+        with open('user_input.txt', 'r') as f:
+            contents = f.readlines()
+
+        # Filter the tasks based on the search criteria
+        filtered_tasks = []
+        for line in contents:
+            if line.startswith(f"{month} {day_str}, {year}"):
+                filtered_tasks.append(line.strip())
+
+        # Display the filtered tasks
+        if filtered_tasks:
+            result = "\n".join(filtered_tasks)
+        else:
+            result = "No tasks found for the specified date."
+
+        self.msg_display.config(text=result)
+
     def init_ui(self):
 
         # Create the dropdown menu for month
@@ -114,6 +143,10 @@ class TimePicker(tk.Frame):
 
         self.msg_display = tk.Label(self, text='')
         self.msg_display.grid(row=10, columnspan=5)
+
+        # Create Search button
+        self.search_button = tk.Button(self, text='Search', command=self.search_tasks)
+        self.search_button.grid(row=9, column=1)
 
     def show_options(self, *args):
         event_type = self.event_type_var.get()
@@ -299,5 +332,3 @@ def antiTask(month, day, year, start_hour, start_minute, start_am_pm, end_hour, 
             return f"Your appointment for {time_str} has been deleted."
         else:
             return f"Event on {time_str} does not exist."
-    
-
