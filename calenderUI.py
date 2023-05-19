@@ -48,10 +48,8 @@ class CalendarUI(tk.Frame):
                     button.configure(bg="yellow") # highlight the current day
 
         create_task = tk.Button(self, text="Create", command= self.createTimePicker)
-        create_task.grid(row = 11 , column=1)
+        create_task.grid(row = 12 , column=4)
 
-        select_task = tk.Button(self, text="Select", command= self.create)
-        select_task.grid(row = 11 , column = 3)
 
 
 
