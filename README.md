@@ -18,6 +18,7 @@ To use this application, you need to have Python installed. Clone the repository
 
 **Jonathan Pena**
 - Implemented the calendar display GUI.
+- Implemented add Single, Recurring, Anti-Task functionality
 - Assisted the task scheduling functionality.
 - Assisted in designing the user interface.
 - Assisted in testing and debugging.
